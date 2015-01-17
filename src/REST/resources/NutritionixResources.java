@@ -14,9 +14,6 @@ import java.util.List;
 import java.util.Random;
 
 import javax.ws.rs.*;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.*;
 import org.json.JSONObject;
 import org.json.JSONArray;
