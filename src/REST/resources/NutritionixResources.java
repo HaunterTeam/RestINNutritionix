@@ -52,7 +52,6 @@ public class NutritionixResources {
         bean.setItem_name(foodJSON.getString("item_name"));
         bean.setCalories((float)foodJSON.getDouble("nf_calories"));
         bean.setFat((float)foodJSON.getDouble("nf_total_fat"));
-        System.out.println(array.length());
 
         return bean;
 
