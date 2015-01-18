@@ -12,8 +12,6 @@ public class Main
 {
     private static final URI BASE_URI = URI.create("http://localhost:8443/nutritionix/");
 
-    //deployment url
-    //private static final URI BASE_URI = URI.create("http://localhost:443/mirko-morandi/");
     public static void main(String[] args) throws Exception, IllegalArgumentException, IOException, URISyntaxException
     {
         System.out.println("Starting Nutritionix standalone HTTP server...");

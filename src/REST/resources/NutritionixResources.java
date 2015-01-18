@@ -10,6 +10,8 @@ import REST.helpers.RequestHandler;
 import org.glassfish.jersey.client.ClientConfig;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -27,8 +29,6 @@ public class NutritionixResources {
     Request request;
     String apiKey = "d8c597152276cf358f2d45444de7a4db";
     String apiID = "27b323e6";
-
-    @GET
     @Path("{food}")
     @Produces(MediaType.APPLICATION_JSON )
     public FoodBean getFoodData(@PathParam("food") String food){
@@ -52,7 +52,45 @@ public class NutritionixResources {
 
         return bean;
 
-        //System.out.println(response.getStatus());
+
+    }
+    @GET
+    @Path("/diet")
+    @Produces(MediaType.APPLICATION_JSON)
+
+    public List<FoodBean> getDieteticFood(){
+        String url = "https://api.nutritionix.com/v1_1/search/?results=0%3A50&cal_min=0&cal_max=300&fields=" +
+                "item_name,brand_name,item_id,brand_id,nf_total_fat,nf_calories&appId=27b323e6&appKey=d8c597152276cf358f2d45444de7a4db";
+        RequestHandler handler = new RequestHandler(url);
+
+        JSONObject object = new JSONObject(handler.getRequestResult());
+        JSONArray array = object.getJSONArray("hits");
+
+        Boolean[] hasSeen = new Boolean[array.length() - 1];
+        Arrays.fill(hasSeen,Boolean.FALSE);
+        int listCount = 10;
+        Random rmd = new Random();
+        List<FoodBean> foods = new ArrayList<FoodBean>();
+
+        for (int i = 0; i < listCount; i++) {
+            int rand = rmd.nextInt(array.length() -1);
+
+            if(!hasSeen[rand])
+            {
+                JSONObject foodJSON = array.getJSONObject(rand).getJSONObject("fields");
+                FoodBean bean = new FoodBean();
+                bean.setBrand_name(foodJSON.getString("brand_name"));
+                bean.setItem_name(foodJSON.getString("item_name"));
+                bean.setCalories((float)foodJSON.getDouble("nf_calories"));
+                bean.setFat((float)foodJSON.getDouble("nf_total_fat"));
+                foods.add(bean);
+            }
+            else
+                i--;
+
+        }
+
+        return foods;
 
     }
 
