@@ -29,9 +29,10 @@ public class NutritionixResources {
     Request request;
     String apiKey = "d8c597152276cf358f2d45444de7a4db";
     String apiID = "27b323e6";
-    @Path("{food}")
+
+    @GET
     @Produces(MediaType.APPLICATION_JSON )
-    public FoodBean getFoodData(@PathParam("food") String food){
+    public FoodBean getFoodData(@QueryParam("food") String food){
 
         String url = String.format("https://api.nutritionix.com/v1_1/search/%s?results=0:20&field" +
                 "s=item_name,brand_name,item_id,nf_calories,nf_total_fat&appId=%s&appKey=%s",food,apiID,apiKey);
@@ -47,8 +48,8 @@ public class NutritionixResources {
         FoodBean bean = new FoodBean();
         bean.setBrand_name(foodJSON.getString("brand_name"));
         bean.setItem_name(foodJSON.getString("item_name"));
-        bean.setCalories((float)foodJSON.getDouble("nf_calories"));
-        bean.setFat((float)foodJSON.getDouble("nf_total_fat"));
+        bean.setCalories(foodJSON.getDouble("nf_calories"));
+        bean.setFat(foodJSON.getDouble("nf_total_fat"));
 
         return bean;
 
@@ -81,8 +82,8 @@ public class NutritionixResources {
                 FoodBean bean = new FoodBean();
                 bean.setBrand_name(foodJSON.getString("brand_name"));
                 bean.setItem_name(foodJSON.getString("item_name"));
-                bean.setCalories((float)foodJSON.getDouble("nf_calories"));
-                bean.setFat((float)foodJSON.getDouble("nf_total_fat"));
+                bean.setCalories(foodJSON.getDouble("nf_calories"));
+                bean.setFat(foodJSON.getDouble("nf_total_fat"));
                 foods.add(bean);
             }
             else
